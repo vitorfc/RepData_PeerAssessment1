@@ -11,7 +11,8 @@ Show any code that is needed to
 
 
 ```r
-library("ggplot2")
+library(ggplot2)
+library(knitr)
 setwd("C:/R/RepSearch/RepData_PeerAssessment1")
 unzip("activity.zip")
 
@@ -35,10 +36,10 @@ For this part of the assignment, you can ignore the missing values in the datase
 
 ```r
 steps.date <- aggregate(steps ~ date, data=data.ok, FUN=sum)
-barplot(steps.date$steps, names.arg=steps.date$date, xlab="Date", ylab="Steps")
+hist(steps.date$steps)
 ```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png) 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
 
 3. Calculate and report the mean and median of the total number of steps taken per day
 
@@ -69,7 +70,7 @@ steps.interval <- aggregate(steps ~ interval, data=data, FUN=mean)
 plot(steps.interval, type="l")
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -115,10 +116,11 @@ newds <- newds[,c(1:3)]
 
 ```r
 steps.byday <- aggregate(steps ~ date, data=newds, FUN=sum)
-barplot(steps.byday$steps, names.arg=steps.byday$date, xlab="date", ylab="steps")
+
+hist(steps.byday$steps)
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
 
 ```r
 mean(steps.byday$steps)
@@ -158,8 +160,7 @@ newds$daytype <- as.factor(sapply(newds$date, daytype))
 
 ```r
 averages <- aggregate(steps ~ interval + daytype, data=newds, mean)
-ggplot(averages, aes(interval, steps)) + geom_line() + facet_grid(daytype ~ .) +
-    xlab("5-minute interval") + ylab("Total steps")
+ggplot(averages, aes(interval, steps)) + geom_line() + facet_grid(daytype ~ .) +    xlab("5-minute interval") + ylab("Total steps")
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 

@@ -9,8 +9,9 @@ Show any code that is needed to
 
 2. Process/transform the data (if necessary) into a format suitable for your analysis
 
-```{r setoptions,cache=TRUE}
-library("ggplot2")
+```{r}
+library(ggplot2)
+library(knitr)
 setwd("C:/R/RepSearch/RepData_PeerAssessment1")
 unzip("activity.zip")
 
@@ -33,7 +34,7 @@ For this part of the assignment, you can ignore the missing values in the datase
 
 ```{r}
 steps.date <- aggregate(steps ~ date, data=data.ok, FUN=sum)
-barplot(steps.date$steps, names.arg=steps.date$date, xlab="Date", ylab="Steps")
+hist(steps.date$steps)
 ```
 
 3. Calculate and report the mean and median of the total number of steps taken per day
@@ -84,7 +85,8 @@ newds <- newds[,c(1:3)]
 
 ```{r}
 steps.byday <- aggregate(steps ~ date, data=newds, FUN=sum)
-barplot(steps.byday$steps, names.arg=steps.byday$date, xlab="date", ylab="steps")
+
+hist(steps.byday$steps)
 mean(steps.byday$steps)
 median(steps.byday$steps)
 ```
@@ -108,8 +110,7 @@ newds$daytype <- as.factor(sapply(newds$date, daytype))
 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
 ```{r}
-
 averages <- aggregate(steps ~ interval + daytype, data=newds, mean)
-ggplot(averages, aes(interval, steps)) + geom_line() + facet_grid(daytype ~ .) +
-    xlab("5-minute interval") + ylab("Total steps")
+ggplot(averages, aes(interval, steps)) + geom_line() + facet_grid(daytype ~ .) +    xlab("5-minute interval") + ylab("Total steps")
+
 ```
